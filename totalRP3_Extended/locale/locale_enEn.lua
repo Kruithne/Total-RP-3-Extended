@@ -55,6 +55,8 @@ TRP3_EXTENDED_LOCALE["enUS"] = {
 	IT_INV_ERROR_CANT_DESTROY_LOOT = "You can't destroy loot items.",
     IT_INV_SCAN_MY_ITEMS = "Scan for my items",
 	IT_CON_TT_MISSING_CLASS = "Missing item class ID",
+	IT_EX_TARGET_BUTTON = "Open exchange",
+	IT_EX_TARGET_BUTTON_TT = "Open the exchange frame to start trading items with this player.",
 	IT_EX_DOWNLOAD = "Download",
 	IT_EX_DOWNLOAD_TT = "|cffff9900This item is %s messages long and would take at minimum %.1f seconds to be downloaded (in the best condition).\n\n|cff00ff00Click to requests %s to send you all the data about this item.\n\n|cffff9900You can't finish a trade if you don't have all the updated information about all items you would receive.",
 	IT_EX_EMPTY_DRAG = "You can drag and drop items here.",
@@ -1487,7 +1489,7 @@ You can also see all droped items on the map by using the "Scan for my items" bu
 
 |cffff9900Note that sometimes items can be droped automatically: if you receive items but your inventory is full, or if one of your bags is damaged.]],
 
-	INV_TU_5 = [[You can exchange an item (or a stack of items) with another player by drag & drop the stack on the player (just like the game does).
+	INV_TU_5 = [[You can exchange an item (or a stack of items) with another player by drag & drop the stack on the player (just like the game does) or using the dedicated button on the target frame.
 
 |cffff9900When someone give you an item, the exchange frame will tell you if the item could possibly have annoying effects (nobody want their character to shout horrible things).
 
