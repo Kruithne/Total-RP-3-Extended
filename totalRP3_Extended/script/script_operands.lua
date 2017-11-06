@@ -17,6 +17,8 @@
 --	limitations under the License.
 ----------------------------------------------------------------------------------
 
+-- Added achievement condition (Paul Corlay)
+
 local assert, type, tonumber = assert, type, tonumber;
 
 local OPERANDS = {
@@ -167,11 +169,10 @@ local OPERANDS = {
 		numeric = true,
 		codeReplacement = function(args)
 			local unitID = args[1] or "target";
-			return ("select(1, UnitPosition(\"%s\"))"):format(unitID);
+			return ("({UnitPosition(\"%s\")})[2]"):format(unitID);
 		end,
 		env = {
 			["UnitPosition"] = "UnitPosition",
-			["select"] = "select",
 		},
 	},
 
@@ -179,11 +180,10 @@ local OPERANDS = {
 		numeric = true,
 		codeReplacement = function(args)
 			local unitID = args[1] or "target";
-			return ("select(2, UnitPosition(\"%s\"))"):format(unitID);
+			return ("({UnitPosition(\"%s\")})[1]"):format(unitID);
 		end,
 		env = {
 			["UnitPosition"] = "UnitPosition",
-			["select"] = "select",
 		},
 	},
 
@@ -376,6 +376,23 @@ local OPERANDS = {
 		end,
 		env = {
 			["GetCameraZoom"] = "GetCameraZoom",
+		},
+	},
+	
+	["char_achievement"] = {
+		numeric = false,
+		codeReplacement = function(args)
+			local completedByIndex = 4;
+			if args[1] == "account" then
+				completedByIndex = 4; -- We get the "completed" return
+			elseif args[1] == "character" then
+				completedByIndex = 13; -- We get the "wasEarnedByMe" return
+			end
+			local id = args[2] or "";
+			return ("({GetAchievementInfo(%s)})[%s]"):format(id, completedByIndex);
+		end,
+		env = {
+			["GetAchievementInfo"] = "GetAchievementInfo",
 		},
 	},
 

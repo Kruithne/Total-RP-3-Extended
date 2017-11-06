@@ -1,13 +1,17 @@
-# Version 1.0.4 (Release)
+# Version 1.0.6
 
-## New features
+By Solanya
 
-- New "Prompt for input" effect (under the "Expert" category) allowing you to prompt the user for an input, store it in an object variable (or a campaign variable) and call a workflow afterward.
-- New text tags for TRP3 race and class. Check [the guide](https://wow.curseforge.com/projects/total-rp-3-extended/pages/tutorials/variable-tags)
+## New features / enhancements
+
+- Added achievement condition operand
+- Increased quest log progression size
+- {trp:target:full} text tag now tries also to use campaign NPCs names
 
 ## Bug fixes
 
-- Fixed: Actions macros when character macros are full. — [Ticket #65](https://wow.curseforge.com/projects/total-rp-3-extended/issues/65)
-- Fixed: Campaign listening to an event while paused. — [Ticket #67](https://wow.curseforge.com/projects/total-rp-3-extended/issues/67)
-- Fixed: Cooldown issue on an item. — [Ticket #69](https://wow.curseforge.com/projects/total-rp-3-extended/issues/69)
-- Fixed: Restricted lua environment variables (string, math, pairs, type, etc.) are all strings in the environment. — [Ticket #71](https://wow.curseforge.com/projects/total-rp-3-extended/issues/71)
+- Fixed an issue with rolling multiple dices
+- Fixed "Summon Mount" effect
+- Fixed an issue with inner item display
+- Fixed an issue with "Player choices" in cutscenes when there was no left model
+- Fixed X & Y position condition operands
