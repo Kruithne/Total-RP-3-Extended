@@ -341,6 +341,60 @@ local function addToExchange(container, slotID)
 end
 TRP3_API.inventory.addToExchange = addToExchange;
 
+local function addToRemoteExchange(objectID, itemData, targetID)
+
+	local itemClass = getClass(objectID);
+	local parts = {strsplit(TRP3_API.extended.ID_SEPARATOR, objectID)};
+	local rootClassID = parts[1];
+	local rootClass = getClass(rootClassID);
+
+	if not exchangeFrame.targetID then
+		-- Then it's a new exchange
+		exchangeFrame.targetID = targetID;
+	end
+	if not exchangeFrame.myData then
+		exchangeFrame.myData = {};
+	end
+	if not exchangeFrame.yourData then
+		exchangeFrame.yourData = {};
+	end
+
+	-- Add item end of list
+	local found = false;
+	for i=1, 4 do
+		local index = tostring(i);
+		if not exchangeFrame.myData[index] then
+			exchangeFrame.myData[index] = {
+				c = TRP3_API.inventory.copySlotContent({}, itemClass, itemData),
+				i = itemClass.BA.IC,
+				n = getItemLink(itemClass),
+				v = itemClass.BA.VA,
+				w = itemClass.BA.WE,
+				q = itemClass.BA.QE,
+				qa = itemClass.BA.QA,
+				id = rootClassID,
+				vn = rootClass.MD.V,
+				si = Comm.estimateStructureLoad(rootClass);
+			};
+			found = true;
+			break;
+		end
+	end
+	-- Already used the 4 exchange slots
+	if not found then
+		return;
+	end
+
+	exchangeFrame.myData.ok = nil;
+	exchangeFrame.yourData.ok = nil;
+
+	drawUI();
+
+	Comm.sendObject(UPDATE_EXCHANGE_QUERY_PREFIX, exchangeFrame.myData, exchangeFrame.targetID, START_EXCHANGE_PRIORITY);
+end
+
+TRP3_API.inventory.addToRemoteExchange = addToRemoteExchange;
+
 --- Opens an empty exchange frame with the given unit ID
 --- @param targetID string @ The complete unit ID of the target of the exchange
 local function startEmptyExchangeWithUnit(targetID)

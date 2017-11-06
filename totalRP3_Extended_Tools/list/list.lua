@@ -444,6 +444,7 @@ local ACTION_FLAG_EXPERT = "5";
 local ACTION_FLAG_COPY = "6";
 local ACTION_FLAG_EXPORT = "7";
 local ACTION_FLAG_FULL_EXPORT = "8";
+local ACTION_FLAG_DIRECT_SEND = "9";
 
 function onLineActionSelected(value, button)
 	local action = value:sub(1, 1);
@@ -499,6 +500,13 @@ function onLineActionSelected(value, button)
 		else
 			Utils.message.displayMessage(loc("DB_EXPORT_MODULE_NOT_ACTIVE"), 2);
 		end
+	elseif action == ACTION_FLAG_DIRECT_SEND then
+		TRP3_API.popup.showNumberInputPopup(loc("DB_SEND_TO_PLAYER_NAME_PROMPT"), function(targetID)
+			-- TODO Check if exists and Extended version
+			TRP3_API.popup.showNumberInputPopup(loc("DB_SEND_COUNT"):format(TRP3_API.inventory.getItemLink(TRP3_API.extended.getClass(objectID)), targetID), function(value)
+				TRP3_API.inventory.addToRemoteExchange(objectID, {count = value or 1}, targetID);
+			end, nil, 1);
+		end, nil, 1);
 	end
 end
 
@@ -517,6 +525,7 @@ function onLineRightClick(lineWidget, data)
 		if data.mode == TRP3_DB.modes.NORMAL and not TRP3_DB.inner[data.rootID] then
 			tinsert(values, {loc("DB_TO_EXPERT"), ACTION_FLAG_EXPERT .. data.fullID, loc("DB_EXPERT_TT")});
 		end
+		tinsert(values, {loc("DB_SEND_TO_PLAYER"), ACTION_FLAG_DIRECT_SEND .. data.fullID, loc("DB_SEND_TO_PLAYER_TT")});
 	end
 	tinsert(values, {loc("EDITOR_ID_COPY"), ACTION_FLAG_COPY_ID .. data.fullID, loc("DB_COPY_ID_TT")});
 	if data.type == TRP3_DB.types.ITEM or data.type == TRP3_DB.types.DOCUMENT or data.type == TRP3_DB.types.DIALOG then

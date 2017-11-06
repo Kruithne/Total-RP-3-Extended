@@ -82,6 +82,7 @@ local function copySlotContent(slot, itemClass, itemData)
 		tcopy(slot.content, itemData.content);
 	end
 end
+TRP3_API.inventory.copySlotContent = copySlotContent;
 
 local function dropMeBecauseIMFull(itemClass, itemData, toAdd, classID)
 	local dropSlot = {

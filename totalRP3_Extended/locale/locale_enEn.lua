@@ -362,10 +362,17 @@ TRP3_EXTENDED_LOCALE["enUS"] = {
 	DB_CREATE_ITEM_TEMPLATES_FROM_TT = "Create a copy of an existing item.",
 	DB_ADD_ITEM = "Add to main inventory",
 	DB_TO_EXPERT = "Convert to expert mode",
+	DB_SEND_TO_PLAYER = "Send to specific player",
+	DB_SEND_TO_PLAYER_TT = [[This will open a remote exchange with a specific player.
+
+|cfffff569Note:|r The player has to be reachable, meaning be online, of the same faction and from your server or a connected server.]],
+	DB_SEND_TO_PLAYER_NAME_PROMPT = [[Please indicate the name and realm of the player you want to start a remote exchange with.
+The expect format is |cffc79c6ePlayerName-RealmName|r]],
 	DB_CREATE_CAMPAIGN = "Create campaign",
 	DB_CREATE_CAMPAIGN_TT = "Start creating a campaign",
 	DB_REMOVE_OBJECT_POPUP = "Please confirm the removal of the object:\nID: |cff00ffff\"%s\"|r\n|cff00ff00[%s]|r\n\n|cffff9900Warning: This action cannot be reverted!.",
 	DB_ADD_COUNT = "How many units of %s do you want to add to your inventory?",
+	DB_SEND_COUNT = "How many units of %1$s do you want to send to |cfffff569%2$s|r?",
 	DB_IMPORT_ITEM = "Import item",
 	DB_HARD_SAVE = "Hard save",
 	DB_HARD_SAVE_TT = "Reload the game UI in order to force saved variables to be written on the disk.",
