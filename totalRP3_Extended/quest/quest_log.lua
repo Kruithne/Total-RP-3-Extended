@@ -33,6 +33,12 @@ local TAB_STEPS = "steps";
 TRP3_QuestLogPage.TAB_QUESTS = TAB_QUESTS;
 TRP3_QuestLogPage.TAB_STEPS = TAB_STEPS;
 
+---@type TRP3_ChatLinks
+local ChatLinks = TRP3_API.chat_links;
+local CAMPAIGNS_LINK_TYPE = "C";
+local GetCurrentKeyBoardFocus = GetCurrentKeyBoardFocus;
+local IsShiftKeyDown = IsShiftKeyDown;
+
 --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 -- CAMPAIGN
 --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -89,6 +95,7 @@ local function getCampaignProgression(campaignID)
 	end
 end
 
+local createdBy = "|cff00ff00%s: %s|r\n\n";
 local function decorateCampaignButton(campaignButton, campaignID, noTooltip)
 	local campaignClass = getClass(campaignID);
 	local campaignIcon, campaignName, campaignDescription = getClassDataSafe(campaignClass);
@@ -99,6 +106,21 @@ local function decorateCampaignButton(campaignButton, campaignID, noTooltip)
 	local current = getQuestLog().currentCampaign == campaignID;
 	campaignButton:Show();
 	campaignButton.name:SetText(campaignName);
+
+	campaignButton:SetScript("OnClick", function()
+		if(IsShiftKeyDown()) then
+			local editbox = GetCurrentKeyBoardFocus();
+			if editbox then
+				local linkData = {
+					ChatLinks.generateSingleLineTooltipData(campaignName, ChatLinks.FORMAT.COLORS.YELLOW, ChatLinks.FORMAT.SIZES.TITLE),
+					ChatLinks.generateSingleLineTooltipData(campaignDescription),
+					ChatLinks.generateSingleLineTooltipData(progress:format(loc("QE_PROGRESS"), progression), nil, ChatLinks.FORMAT.SIZES.SMALL), -- Should we show progress?
+					ChatLinks.generateDoubleLineTooltipData("Total RP 3: Extended campaign", createdBy:format(loc("DB_FILTERS_OWNER"), author), nil, nil, ChatLinks.FORMAT.SIZES.SMALL),
+				};
+				editbox:Insert(ChatLinks.generateLink(campaignName, linkData, CAMPAIGNS_LINK_TYPE));
+			end
+		end
+	end);
 
 	campaignButton.Completed:Hide();
 	local color = "";
@@ -125,7 +147,6 @@ local function decorateCampaignButton(campaignButton, campaignID, noTooltip)
 	end
 
 	if not noTooltip then
-		local createdBy = "|cff00ff00%s: %s|r\n\n";
 		TRP3_API.ui.tooltip.setTooltipForSameFrame(campaignButton, "TOPRIGHT", 0, 5, campaignName,
 			createdBy:format(loc("DB_FILTERS_OWNER"), author)
 			.. progress:format(loc("QE_PROGRESS"), progression)
