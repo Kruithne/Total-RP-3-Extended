@@ -34,7 +34,7 @@ TRP3_QuestLogPage.TAB_QUESTS = TAB_QUESTS;
 TRP3_QuestLogPage.TAB_STEPS = TAB_STEPS;
 
 ---@type TRP3_ChatLinks
-local ChatLinks = TRP3_API.chat_links;
+local ChatLinks;
 local CAMPAIGNS_LINK_TYPE = "C";
 local GetCurrentKeyBoardFocus = GetCurrentKeyBoardFocus;
 local IsShiftKeyDown = IsShiftKeyDown;
@@ -112,10 +112,18 @@ local function decorateCampaignButton(campaignButton, campaignID, noTooltip)
 			local editbox = GetCurrentKeyBoardFocus();
 			if editbox then
 				local linkData = {
-					ChatLinks.generateSingleLineTooltipData(campaignName, ChatLinks.FORMAT.COLORS.YELLOW, ChatLinks.FORMAT.SIZES.TITLE),
+					ChatLinks.generateSingleLineTooltipData(Utils.str.icon(campaignIcon, 20) .. " " .. campaignName, ChatLinks.FORMAT.COLORS.YELLOW, ChatLinks.FORMAT.SIZES.TITLE),
+					ChatLinks.generateSingleLineTooltipData(" "),
 					ChatLinks.generateSingleLineTooltipData(campaignDescription),
+					ChatLinks.generateSingleLineTooltipData(" "),
 					ChatLinks.generateSingleLineTooltipData(progress:format(loc("QE_PROGRESS"), progression), nil, ChatLinks.FORMAT.SIZES.SMALL), -- Should we show progress?
-					ChatLinks.generateDoubleLineTooltipData("Total RP 3: Extended campaign", createdBy:format(loc("DB_FILTERS_OWNER"), author), nil, nil, ChatLinks.FORMAT.SIZES.SMALL),
+					ChatLinks.generateSingleLineTooltipData(" "),
+					
+					ChatLinks.generateSingleLineTooltipData(createdBy:format(loc("DB_FILTERS_OWNER"), author), nil, ChatLinks.FORMAT.SIZES.SMALL, false), -- Should we show progress?
+					ChatLinks.generateSingleLineTooltipData("Total RP 3: Extended Campaign", nil, ChatLinks.FORMAT.SIZES.SMALL),
+					
+					ChatLinks.generateSingleLineTooltipData(" "),
+					ChatLinks.generateSingleLineTooltipData("[IMPORT BUTTON GOES HERE]", nil),
 				};
 				editbox:Insert(ChatLinks.generateLink(campaignName, linkData, CAMPAIGNS_LINK_TYPE));
 			end
@@ -567,6 +575,9 @@ local function init()
 
 	-- Quest log button on target bar
 	TRP3_API.events.listenToEvent(TRP3_API.events.WORKFLOW_ON_LOADED, function()
+		
+		ChatLinks = TRP3_API.ChatLinks;
+		
 		if TRP3_API.toolbar then
 			local toolbarButton = {
 				id = "hh_player_e_quest",
